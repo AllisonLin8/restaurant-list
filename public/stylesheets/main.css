@@ -69,7 +69,7 @@ header {
     font-size: 0.8rem;
 }
 
-.restaurant-show-title {
+.restaurant-show-title,.restaurant-edit-title,.restaurant-new-title { 
     position: relative;
     top: -100px;
     color: white;
@@ -87,7 +87,7 @@ header {
 
 @media screen and (max-width: 768px) {
 
-    .restaurant-show-title {
+    .restaurant-show-title,.restaurant-edit-title,.restaurant-new-title {
         font-size: 2rem;
     }
 }
