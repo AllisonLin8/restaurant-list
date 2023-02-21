@@ -35,25 +35,25 @@ app.use(express.static('public'))
 // 設定body-parser
 app.use(bodyParser.urlencoded({ extended: true }))
 // 設定路由
-// 1. 瀏覽全部餐廳的頁面
+// 瀏覽全部餐廳的頁面
 app.get('/', (req, res) => {
     Restaurant.find()
         .lean()
         .then(restaurants => res.render('index', { restaurants }))
         .catch(error => console.error(error))
 })
-// 2. 瀏覽新增餐廳的頁面
+// 瀏覽新增餐廳的頁面
 app.get('/restaurants/new', (req, res) => {
     res.render('new')
 })
-// 3. 提交新的餐廳資料
+// 提交新的餐廳資料
 app.post('/restaurants', (req, res) => {
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
     return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description })
         .then(() => res.redirect('/'))
         .catch(error => console.error(error))
 })
-// 3. 瀏覽餐廳資訊的頁面
+// 瀏覽某一間餐廳的資訊頁面
 app.get('/restaurants/:restaurant_id', (req, res) => {
     const id = req.params.restaurant_id
     return Restaurant.findById(id)
@@ -61,7 +61,35 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
         .then(restaurant => res.render('show', { restaurant }))
         .catch(error => console.error(error))
 })
-// 4. 搜尋餐廳
+// 修改餐廳資訊的頁面
+app.get('/restaurants/:restaurant_id/edit', (req, res) => {
+    const id = req.params.restaurant_id
+    return Restaurant.findById(id)
+        .lean()
+        .then(restaurant => res.render('edit', { restaurant }))
+        .catch(error => console.error(error))
+})
+// 提交修改的餐廳資訊
+app.post('/restaurants/:restaurant_id/edit', (req, res) => {
+    const id = req.params.restaurant_id
+    const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+    return Restaurant.findById(id)
+        .then(restaurant => {
+            restaurant.name = name
+            restaurant.name_en = name_en
+            restaurant.category = category
+            restaurant.image = image
+            restaurant.location = location
+            restaurant.phone = phone
+            restaurant.google_map = google_map
+            restaurant.rating = rating
+            restaurant.description = description
+            return restaurant.save()
+        })
+        .then(restaurant => res.redirect(`/restaurants/${id}`))
+        .catch(error => console.error(error))
+})
+// 搜尋餐廳
 app.get('/search', (req, res) => {
     const keyword = req.query.keyword
     return Restaurant.find()

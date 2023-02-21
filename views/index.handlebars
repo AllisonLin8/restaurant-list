@@ -26,24 +26,33 @@
         <div class="col-md-10 col-12 mx-auto">
             <div class="row row-cols-sm-3">
                 {{#each restaurants}}
-                <a href="/restaurants/{{this._id}}" class="text-secondary">
-                    <div class="card mb-3">
-                        <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
-                        <div class="card-body p-3">
-                            <h6 class="card-title mb-1">{{this.name}}</h6>
+                <div class="col mb-2">
+                    <a href="/restaurants/{{this._id}}" class="text-secondary">
+                        <div class="card mb-1">
+                            <img class="card-img-top" src="{{this.image}}" alt="{{this.name}}">
+                            <div class="card-body p-3">
+                                <h5 class="card-title mb-2">{{this.name}}</h5>
 
-                            <div class="restaurant-category mb-1">
-                                <i class="fas fa-utensils pr-2"></i> {{this.category}}
+                                <div class="restaurant-category mb-1 fs-6">
+                                    <i class="fas fa-utensils pr-2"></i> {{this.category}}
+                                </div>
+
+                                <div class="mb-1 fs-6">
+                                    <i class="fas fa-star fa-xs"></i>
+                                    {{this.rating}}
+                                </div>
+
                             </div>
-
-                            <span class="badge badge-pill badge-danger font-weight-normal">
-                                {{this.rating}}
-                                <i class="fas fa-star fa-xs"></i>
-                            </span>
-
                         </div>
+                    </a>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <a href="/restaurants/{{this._id}}/edit" class="me-2">edit</a>
+                        <a href="/restaurants/{{this._id}}" class="me-2">detail</a>
+                        <form action="/restaurants/{{this._id}}/delete" class="me-1">
+                            <button type="submit">delete</button>
+                        </form>
                     </div>
-                </a>
+                </div>
                 {{/each}}
             </div>
         </div>
