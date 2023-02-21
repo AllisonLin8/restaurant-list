@@ -2,7 +2,7 @@
 const express = require('express')
 // 設定參數
 const app = express()
-const port = 3002
+const port = 3000
 // 載入express-handlebars
 const exphbs = require('express-handlebars')
 // 載入mongoose
