@@ -15,9 +15,6 @@ router.get('/search', (req, res) => {
     const keyword = req.query.keyword
     const sortBy = req.query.sortBy
     let sortMethod = {}
-    if (!keyword) {
-        res.redirect("/")
-    }
     if (sortBy) { // 轉換sortMethod
         switch (sortBy) {
             case 'nameAsc':
