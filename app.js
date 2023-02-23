@@ -13,6 +13,8 @@ if (process.env.NODE_ENV !== 'production') {
 }
 // 載入body-parser
 const bodyParser = require('body-parser')
+// 載入 method-override
+const methodOverride = require('method-override')
 // 載入 Restaurant
 const Restaurant = require('./models/restaurant')
 const { urlencoded } = require('express')
@@ -34,6 +36,8 @@ app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 // 設定body-parser
 app.use(bodyParser.urlencoded({ extended: true }))
+// 設定 method-override
+app.use(methodOverride('_method'))
 // 設定路由
 // 瀏覽全部餐廳的頁面
 app.get('/', (req, res) => {
@@ -70,7 +74,7 @@ app.get('/restaurants/:restaurant_id/edit', (req, res) => {
         .catch(error => console.error(error))
 })
 // 提交修改的餐廳資訊
-app.post('/restaurants/:restaurant_id/edit', (req, res) => {
+app.put('/restaurants/:restaurant_id', (req, res) => {
     const id = req.params.restaurant_id
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
     return Restaurant.findById(id)
@@ -90,7 +94,7 @@ app.post('/restaurants/:restaurant_id/edit', (req, res) => {
         .catch(error => console.error(error))
 })
 // 刪除餐廳
-app.post('/restaurants/:restaurant_id/delete', (req, res) => {
+app.delete('/restaurants/:restaurant_id', (req, res) => {
     const id = req.params.restaurant_id
     return Restaurant.findById(id)
         .then(restaurant => restaurant.remove())

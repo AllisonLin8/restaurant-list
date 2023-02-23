@@ -67,7 +67,7 @@
                     <div class="d-flex justify-content-end align-items-center">
                         <a href="/restaurants/{{this._id}}/edit" class="me-2">edit</a>
                         <a href="/restaurants/{{this._id}}" class="me-2">detail</a>
-                        <form action="/restaurants/{{this._id}}/delete" class="me-1" method="POST">
+                        <form action="/restaurants/{{this._id}}/?_method=DELETE" class="me-1" method="POST">
                             <button type="submit">delete</button>
                         </form>
                     </div>
