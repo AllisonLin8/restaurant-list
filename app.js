@@ -34,6 +34,12 @@ app.use(session({
 }))
 // 設定passport
 usePassport(app)
+// 把req裡的登入狀態交給res
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.isAuthenticated()
+    res.locals.user = req.user
+    next()
+})
 // 設定路由
 app.use(routes)
 // 啟動伺服器

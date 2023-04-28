@@ -5,13 +5,15 @@ const Restaurant = require('../../models/restaurant')
 
 // 瀏覽全部餐廳的頁面
 router.get('/', (req, res) => {
-    Restaurant.find()
+    const userId = req.user._id
+    Restaurant.find({ userId })
         .lean()
         .then(restaurants => res.render('index', { restaurants }))
         .catch(error => console.error(error))
 })
 // 搜尋餐廳 & 排序餐廳
 router.get('/search', (req, res) => {
+    const userId = req.user._id
     const keyword = req.query.keyword
     const sortBy = req.query.sortBy
     let sortMethod = {}
@@ -34,7 +36,7 @@ router.get('/search', (req, res) => {
                 break
         }
     }
-    Restaurant.find()
+    Restaurant.find({ userId })
         .lean()
         .then(restaurants => {
             let restaurantFiltered = restaurants
