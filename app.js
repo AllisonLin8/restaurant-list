@@ -1,24 +1,32 @@
-// 載入express
+// 載入套件
 const express = require('express')
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
+const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+const session = require('express-session')
+
+require('./config/mongoose')
+const routes = require('./routes')
 // 設定參數
 const app = express()
 const port = 3000
-require('./config/mongoose')
-// 載入express-handlebars
-const exphbs = require('express-handlebars')
-// 載入body-parser
-const bodyParser = require('body-parser')
-// 載入 method-override
-const methodOverride = require('method-override')
-// 載入 routes
-const routes = require('./routes')
 const { urlencoded } = require('express')
+
 // 定義要使用的樣板引擎
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }))
-// 告訴 Express 要設定的 view engine 是 handlebars
+// 告訴Express要設定的view engine是handlebars
 app.set('view engine', 'handlebars')
-// 告訴 Express 靜態檔案位於何處
+// 告訴Express靜態檔案位於何處
 app.use(express.static('public'))
+// 設定session
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}))
 // 設定body-parser
 app.use(bodyParser.urlencoded({ extended: true }))
 // 設定 method-override
