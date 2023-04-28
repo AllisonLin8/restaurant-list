@@ -10,6 +10,7 @@ const session = require('express-session')
 
 require('./config/mongoose')
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 // 設定參數
 const app = express()
 const port = 3000
@@ -21,16 +22,18 @@ app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 // 告訴Express靜態檔案位於何處
 app.use(express.static('public'))
+// 設定body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
+// 設定 method-override
+app.use(methodOverride('_method'))
 // 設定session
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }))
-// 設定body-parser
-app.use(bodyParser.urlencoded({ extended: true }))
-// 設定 method-override
-app.use(methodOverride('_method'))
+// 設定passport
+usePassport(app)
 // 設定路由
 app.use(routes)
 // 啟動伺服器
