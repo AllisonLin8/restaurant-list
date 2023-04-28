@@ -13,7 +13,7 @@ const routes = require('./routes')
 const usePassport = require('./config/passport')
 // 設定參數
 const app = express()
-const port = 3000
+const PORT = process.env.PORT
 const { urlencoded } = require('express')
 
 // 定義要使用的樣板引擎
@@ -47,6 +47,6 @@ app.use((req, res, next) => {
 // 設定路由
 app.use(routes)
 // 啟動伺服器
-app.listen(port, () => {
-    console.log(`This server is running on http://localhost:${port}`)
+app.listen(PORT, () => {
+    console.log(`This server is running on http://localhost:${PORT}`)
 })
