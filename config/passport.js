@@ -22,7 +22,6 @@ module.exports = app => {
                         }
                         return done(null, user)
                     })
-                return done(null, user)
             })
             .catch(err => done(err, false))
     }))
